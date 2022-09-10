@@ -16,9 +16,13 @@ public class UsersController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public string Get(int id)
+    public IActionResult Get(int id)
     {
-        return "value";
+        if(id < 0 || id > 100)
+        {
+            return BadRequest("The index was out of range.");
+        }
+        return Ok($"Value{id}");
     }
 
     [HttpPost]
