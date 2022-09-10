@@ -24,13 +24,21 @@ public class UsersController : ControllerBase
     [HttpGet("{id}")]
     public IActionResult Get(int id)
     {
-        if(id < 0 || id > 100)
+        try
         {
-            _logger.LogWarning("The given Id of {Identifier} was invalid.", id);
+            if (id < 0 || id > 100)
+            {
+                throw new ArgumentOutOfRangeException(nameof(id));
+            }
+
+            _logger.LogInformation(@"The api\Users\{id} was called", id);
+            return Ok($"Value{id}");
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "The given Id of {Identifier} was invalid.", id);
             return BadRequest("The index was out of range.");
         }
-        _logger.LogInformation(@"The api\Users\{id} was called", id);
-        return Ok($"Value{id}");
     }
 
     [HttpPost]
