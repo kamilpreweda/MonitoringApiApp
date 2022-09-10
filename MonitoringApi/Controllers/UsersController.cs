@@ -26,8 +26,10 @@ public class UsersController : ControllerBase
     {
         if(id < 0 || id > 100)
         {
+            _logger.LogWarning("The given Id of {Identifier} was invalid.", id);
             return BadRequest("The index was out of range.");
         }
+        _logger.LogInformation(@"The api\Users\{id} was called", id);
         return Ok($"Value{id}");
     }
 
